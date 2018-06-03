@@ -4,6 +4,8 @@ import logging
 from .notifier import Notifier
 from .brain import Brain
 import time
+from client.stt import BaiduSTT
+import os
 import requests
 
 class Conversation(object):
@@ -81,9 +83,14 @@ class Conversation(object):
                 self._logger.debug("Skip passive listening")
                 if not self.mic.chatting_mode:
                     self.mic.skip_passive = False
-
-            self._logger.debug("Started to listen actively with threshold: %r",
-                               threshold)
+            # threshold = None
+            # while True:
+            #     wake_text = self.mic.activeListenToAllOptions(LISTEN=False)
+            #     wake_set = ('小超同学，','小创同学，','小川同学，','同学，','上同学，')
+            #     if len(wake_text) > 0 and wake_text[0] in wake_set:
+            #         break
+            # self._logger.debug("Started to listen actively with threshold: %r",
+            #                    threshold)
             input = self.mic.activeListenToAllOptions(threshold)
             self._logger.debug("Stopped to listen actively with threshold: %r",
                                threshold)
@@ -93,6 +100,6 @@ class Conversation(object):
                 self.mic.say("什么?")
 
     def get_report(self):
-        report_content = dict(requests.get())
-        if report_content['tag'] is True:
+        report_content = dict(requests.get('http://hack.laphets.com:8080/api/Message/'))
+        if report_content is not None or report_content == '':
             self.mic.say(report_content['content'])
