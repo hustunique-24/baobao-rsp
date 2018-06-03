@@ -273,7 +273,8 @@ class Mic:
                                   input=True,
                                   frames_per_buffer=CHUNK)
 
-        self.speaker.play(dingdangpath.data('audio', 'beep_hi.wav'))
+        if LISTEN:
+            self.speaker.play(dingdangpath.data('audio', 'beep_hi.wav'))
 
         frames = []
         # increasing the range # results in longer pause after command
@@ -297,8 +298,8 @@ class Mic:
             except Exception as e:
                 self._logger.error(e)
                 continue
-
-        self.speaker.play(dingdangpath.data('audio', 'beep_lo.wav'))
+        if LISTEN:
+            self.speaker.play(dingdangpath.data('audio', 'beep_lo.wav'))
 
         # save the audio data
         try:
