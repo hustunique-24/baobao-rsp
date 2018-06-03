@@ -7,7 +7,6 @@ import time
 from client.stt import BaiduSTT
 import os
 import requests
-
 class Conversation(object):
 
     def __init__(self, persona, mic, profile):
@@ -102,7 +101,12 @@ class Conversation(object):
     def get_report(self):
         report_content = requests.get('http://hack.laphets.com:8080/api/message/').content
         if len(report_content) > 0:
-            report_dict = dict(report_content)
-        if report_dict['type'] == 'text':
-            self.mic.say(report_dict['content'])
-            # if report_content['shake']:
+            report_dict = dict(report_content[0])
+            if report_dict['type'] == 'text':
+                self.mic.say(report_dict['content'])
+            if report_content['type'] == 'shake':
+                # my_functions.anmo()
+                print('a')
+
+
+
