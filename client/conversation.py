@@ -100,6 +100,6 @@ class Conversation(object):
                 self.mic.say("什么?")
 
     def get_report(self):
-        report_content = dict(requests.get('http://hack.laphets.com:8080/api/Message/'))
+        report_content = dict(requests.get('http://hack.laphets.com:8080/api/message/').content)
         if report_content is not None or report_content == '':
             self.mic.say(report_content['content'])
